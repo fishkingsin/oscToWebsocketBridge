@@ -1,0 +1,11 @@
+{
+  "name": "oscBridge",
+  "description": "bridging osc to web socket",
+  "author": "James Kong <fishkingsin@gmail.com>",
+  "private": false,
+  "dependencies": {
+    "express": "3.x",
+    "faye-websocket": "x.x",
+    "node-osc": "x.x"
+  }
+}
