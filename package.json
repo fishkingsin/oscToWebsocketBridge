@@ -6,6 +6,7 @@
   "dependencies": {
     "express": "3.x",
     "faye-websocket": "x.x",
-    "node-osc": "x.x"
+    "node-osc": "x.x",
+    "serialport": "x.x"
   }
 }

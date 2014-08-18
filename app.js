@@ -179,6 +179,63 @@ server.addListener('upgrade', connectionHandler); //incomming websocket connecti
 console.log('WebSocket Server in port...', port);
 server.listen(port);
 
+
+//Serial
+var kProtocolHeaderFirstByte = 0xBA;
+var kProtocolHeaderSecondByte = 0xBE;
+var kProtocolBodyLength = 6;
+var SerialPort = require("serialport").SerialPort
+
+
+
+var serialPort = require("serialport");
+serialPort.list(function (err, ports) {
+  ports.forEach(function(port) {
+    
+    if(port.comName.indexOf("/dev/cu.usbserial") > -1)
+  	{
+  		serialPort = new SerialPort(port.comName, {baudrate: 57600},false);
+	    serialPort.open(function (error) {
+		  if ( error ) {
+		    console.log('failed to open: '+error);
+		  } else {
+		    console.log('open');
+		    writeSerial();
+		  }
+		});
+  		return;
+  	}
+  });
+});
+
+function readSerial ()
+{
+	serialPort.on('data', function(data) {
+    	console.log('data received: ' + data);
+    	writeSerial ();
+  	});
+}
+function writeSerial ()
+{
+	var data = new Buffer([kProtocolHeaderFirstByte,kProtocolHeaderSecondByte,
+		0xFF,0xFF,0xFF, //first color
+		0xFF,0xFF,0xFF, // second color
+		0x00]);
+	var calculatedChecksum = 0;
+	for (var i = 2; i < kProtocolBodyLength; i++) {
+      calculatedChecksum ^= data[i];
+    }
+    data[8]=calculatedChecksum;
+    console.log(data[8]);
+	serialPort.write(data, function(err, results) {
+    	console.log('err ' + err);
+    	console.log('results ' + results);
+    	// readSerial ();
+    	// writeSerial ()
+  	});
+
+}
+
 //helper function
 
 function rgb2hsb(r,g,b)

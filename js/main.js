@@ -1,5 +1,5 @@
 var socket;
-var debug = false  ;
+var debug = true  ;
 var messageDiv;
 var statusDiv;
 var button;
