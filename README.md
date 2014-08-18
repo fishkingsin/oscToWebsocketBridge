@@ -10,6 +10,8 @@ use it on your own risk
 
 Install
 =========================================
+install [node.js](http://nodejs.org/download/)
+
 npm install 
 
 Run
